@@ -1,11 +1,14 @@
-import { BEGIN, SUCCESS, ERROR } from './actions'
+import { BEGIN, ERROR, SUCCESS } from './actions';
 import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 
 const initialState = {
     result: {
-        success: true,
-        isFetching: false
+        content: null,
+        error: null,
+        isFetching: false,
+        method: null,
+        success: true
     }
 };
 
@@ -14,41 +17,44 @@ const reducer = (state = initialState, action) => {
         case BEGIN:
             return {
                 result: {
-                    success: false,
-                    isFetching: true,
-                    error: false,
                     content: null,
-                    method: action.method
+                    error: null,
+                    isFetching: true,
+                    method: action.method,
+                    success: false
                 }
             };
+
         case SUCCESS:
             return {
                 result: {
-                    success: true,
-                    isFetching: false,
-                    error: false,
                     content: action.content,
-                    method: action.method
+                    error: null,
+                    isFetching: false,
+                    method: action.method,
+                    success: true
                 }
             };
+
         case ERROR:
             return {
                 result: {
-                    success: false,
-                    isFetching: false,
-                    error: true,
                     content: null,
-                    method: action.method
+                    error: action.error,
+                    isFetching: false,
+                    method: action.method,
+                    success: false
                 }
             };
+
         default:
             return state;
     }
-}
+};
 
 const store = createStore(
     reducer,
     applyMiddleware(thunk)
 );
 
-export default store
+export default store;

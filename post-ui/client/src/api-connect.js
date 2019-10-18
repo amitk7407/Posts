@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { begin, success, error } from './actions'
+import axios from 'axios';
+import { begin, error, success } from './actions';
 
 const fetchContent = (options) => {
     const requestOptions = Object.assign({}, {
@@ -9,7 +9,7 @@ const fetchContent = (options) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
-    }, options)
+    }, options);
 
     return dispatch => {
         dispatch(begin(requestOptions.method));
@@ -27,28 +27,27 @@ const get = () => {
     return fetchContent({
         method: 'get',
         url: '/feeds'
-    })
-}
+    });
+};
 
 const post = (data) => {
     return fetchContent({
         method: 'post',
         url: '/feeds',
         data
-    })
-}
+    });
+};
 
 const upvote = (id, data) => {
     return fetchContent({
         method: 'put',
         url: `/feeds/upvote/${id}`,
         data
-    })
-}
+    });
+};
 
 export default {
     get,
     post,
     upvote
 }
-
